@@ -1,0 +1,176 @@
+version: '3.8'
+
+services:
+  # API Gateway
+  api-gateway:
+    image: kong:latest
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: postgres-gateway
+      KONG_PG_DATABASE: kong
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kong
+    depends_on:
+      - postgres-gateway
+    networks:
+      - ecommerce-network
+
+  # Auth Service
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "3001:3001"
+    environment:
+      DB_HOST: postgres-auth
+      DB_PORT: 5432
+      DB_NAME: auth
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: your-secret-key
+    depends_on:
+      - postgres-auth
+      - redis
+    networks:
+      - ecommerce-network
+
+  # Product Service
+  product-service:
+    build: ./product-service
+    ports:
+      - "3002:3002"
+    environment:
+      MONGO_URL: mongodb://mongodb:27017
+      REDIS_URL: redis://redis:6379
+      RABBITMQ_URL: amqp://rabbitmq:5672
+    depends_on:
+      - mongodb
+      - redis
+      - rabbitmq
+    networks:
+      - ecommerce-network
+
+  # Order Service
+  order-service:
+    build: ./order-service
+    ports:
+      - "3003:3003"
+    environment:
+      DB_HOST: postgres-orders
+      DB_PORT: 5432
+      DB_NAME: orders
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      RABBITMQ_URL: amqp://rabbitmq:5672
+      AUTH_SERVICE_URL: http://auth-service:3001
+      INVENTORY_SERVICE_URL: http://inventory-service:3005
+    depends_on:
+      - postgres-orders
+      - rabbitmq
+    networks:
+      - ecommerce-network
+
+  # Payment Service
+  payment-service:
+    build: ./payment-service
+    ports:
+      - "3004:3004"
+    environment:
+      RABBITMQ_URL: amqp://rabbitmq:5672
+      ORDER_SERVICE_URL: http://order-service:3003
+      STRIPE_SECRET_KEY: sk_test_your_key
+      STRIPE_WEBHOOK_SECRET: whsec_your_secret
+    depends_on:
+      - rabbitmq
+    networks:
+      - ecommerce-network
+
+  # Databases
+  postgres-gateway:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: kong
+      POSTGRES_USER: kong
+      POSTGRES_PASSWORD: kong
+    volumes:
+      - postgres-gateway-data:/var/lib/postgresql/data
+    networks:
+      - ecommerce-network
+
+  postgres-auth:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: auth
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres-auth-data:/var/lib/postgresql/data
+    networks:
+      - ecommerce-network
+
+  postgres-orders:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: orders
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres-orders-data:/var/lib/postgresql/data
+    networks:
+      - ecommerce-network
+
+  mongodb:
+    image: mongo:6
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - ecommerce-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - ecommerce-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - ecommerce-network
+
+  # Observability
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - ecommerce-network
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    networks:
+      - ecommerce-network
+
+volumes:
+  postgres-gateway-data:
+  postgres-auth-data:
+  postgres-orders-data:
+  mongodb-data:
+
+networks:
+  ecommerce-network:
+    driver: bridge
