@@ -1,124 +1,124 @@
-# Comparação: Serverless vs Microserviços - E-commerce
+# Comparación: Serverless vs Microservicios - E-commerce
 
-## Visão Geral das Arquiteturas
+## Visión General de las Arquitecturas
 
 ### 🚀 Serverless (FaaS - Function as a Service)
-Arquitetura baseada em funções independentes executadas sob demanda, sem gerenciamento de servidores.
+Arquitectura basada en funciones independientes ejecutadas bajo demanda, sin gestión de servidores.
 
-### 🏗️ Microserviços
-Arquitetura baseada em serviços independentes, containerizados e auto-contidos, cada um com seu próprio banco de dados.
-
----
-
-## Comparação Detalhada
-
-### 1. **Escalabilidade**
-
-| Aspecto | Serverless | Microserviços |
-|---------|-----------|---------------|
-| **Tipo** | Automática e instantânea | Manual ou com auto-scaling |
-| **Granularidade** | Por função individual | Por serviço completo |
-| **Cold Start** | ⚠️ 100-1000ms na primeira chamada | ✅ Serviços sempre ativos |
-| **Picos de tráfego** | ✅ Excelente - escala automaticamente | ⚠️ Precisa configurar limites |
-
-**Vencedor:** Serverless (para cargas imprevisíveis)
+### 🏗️ Microservicios
+Arquitectura basada en servicios independientes, contenerizados y autocontenidos, cada uno con su propia base de datos.
 
 ---
 
-### 2. **Custo**
+## Comparación Detallada
 
-| Aspecto | Serverless | Microserviços |
+### 1. **Escalabilidad**
+
+| Aspecto | Serverless | Microservicios |
 |---------|-----------|---------------|
-| **Modelo** | Pay-per-execution | Pay-per-instance |
-| **Baixo tráfego** | ✅ Muito econômico | ❌ Paga por recursos ociosos |
-| **Alto tráfego** | ⚠️ Pode ficar caro | ✅ Mais previsível |
-| **Infraestrutura** | ✅ Zero manutenção | ❌ Necessita DevOps |
+| **Tipo** | Automática e instantánea | Manual o con auto-scaling |
+| **Granularidad** | Por función individual | Por servicio completo |
+| **Cold Start** | ⚠️ 100-1000ms en la primera llamada | ✅ Servicios siempre activos |
+| **Picos de tráfico** | ✅ Excelente - escala automáticamente | ⚠️ Necesita configurar límites |
 
-**Exemplo de custos (1 milhão de requests/mês):**
+**Ganador:** Serverless (para cargas impredecibles)
+
+---
+
+### 2. **Costo**
+
+| Aspecto | Serverless | Microservicios |
+|---------|-----------|---------------|
+| **Modelo** | Pago por ejecución | Pago por instancia |
+| **Bajo tráfico** | ✅ Muy económico | ❌ Paga por recursos ociosos |
+| **Alto tráfico** | ⚠️ Puede ser caro | ✅ Más predecible |
+| **Infraestructura** | ✅ Cero mantenimiento | ❌ Necesita DevOps |
+
+**Ejemplo de costos (1 millón de requests/mes):**
 - **Serverless:** ~$20-50 USD
-- **Microserviços:** ~$200-500 USD (VMs + Kubernetes)
+- **Microservicios:** ~$200-500 USD (VMs + Kubernetes)
 
-**Vencedor:** Serverless (para startups e MVPs)
-
----
-
-### 3. **Complexidade Operacional**
-
-| Aspecto | Serverless | Microserviços |
-|---------|-----------|---------------|
-| **Deploy** | ✅ Simples (1 comando) | ⚠️ Complexo (CI/CD, K8s) |
-| **Monitoramento** | ✅ Gerenciado pela cloud | ❌ Precisa configurar (Prometheus, etc) |
-| **Debugging** | ⚠️ Mais difícil (distribuído) | ⚠️ Difícil (múltiplos serviços) |
-| **Logs** | ✅ Centralizados (CloudWatch) | ❌ Precisa ELK Stack |
-
-**Vencedor:** Serverless (menor overhead)
+**Ganador:** Serverless (para startups y MVPs)
 
 ---
 
-### 4. **Flexibilidade Tecnológica**
+### 3. **Complejidad Operacional**
 
-| Aspecto | Serverless | Microserviços |
+| Aspecto | Serverless | Microservicios |
 |---------|-----------|---------------|
-| **Linguagens** | ⚠️ Limitado pelo provider | ✅ Qualquer linguagem |
-| **Runtime** | ⚠️ Versões específicas | ✅ Total controle |
-| **Bibliotecas** | ⚠️ Limites de tamanho (250MB AWS) | ✅ Sem limites |
-| **Vendor Lock-in** | ❌ Alto | ✅ Baixo (containers) |
+| **Deploy** | ✅ Simple (1 comando) | ⚠️ Complejo (CI/CD, K8s) |
+| **Monitoreo** | ✅ Gestionado por la nube | ❌ Necesita configurar (Prometheus, etc) |
+| **Debugging** | ⚠️ Más difícil (distribuido) | ⚠️ Difícil (múltiples servicios) |
+| **Logs** | ✅ Centralizados (CloudWatch) | ❌ Necesita ELK Stack |
 
-**Vencedor:** Microserviços (maior liberdade)
+**Ganador:** Serverless (menor overhead)
 
 ---
 
-### 5. **Performance**
+### 4. **Flexibilidad Tecnológica**
 
-| Aspecto | Serverless | Microserviços |
+| Aspecto | Serverless | Microservicios |
 |---------|-----------|---------------|
-| **Latência** | ⚠️ Cold start 100-1000ms | ✅ Consistente (~10-50ms) |
+| **Lenguajes** | ⚠️ Limitado por el proveedor | ✅ Cualquier lenguaje |
+| **Runtime** | ⚠️ Versiones específicas | ✅ Control total |
+| **Bibliotecas** | ⚠️ Límites de tamaño (250MB AWS) | ✅ Sin límites |
+| **Vendor Lock-in** | ❌ Alto | ✅ Bajo (containers) |
+
+**Ganador:** Microservicios (mayor libertad)
+
+---
+
+### 5. **Rendimiento**
+
+| Aspecto | Serverless | Microservicios |
+|---------|-----------|---------------|
+| **Latencia** | ⚠️ Cold start 100-1000ms | ✅ Consistente (~10-50ms) |
 | **Throughput** | ✅ Ilimitado (escalado) | ⚠️ Limitado por recursos |
-| **Tempo de execução** | ❌ Max 15min (Lambda) | ✅ Sem limites |
-| **Conexões DB** | ⚠️ Pool limitado | ✅ Gerenciado por serviço |
+| **Tiempo de ejecución** | ❌ Máx 15min (Lambda) | ✅ Sin límites |
+| **Conexiones DB** | ⚠️ Pool limitado | ✅ Gestionado por servicio |
 
-**Vencedor:** Microserviços (para baixa latência crítica)
+**Ganador:** Microservicios (para baja latencia crítica)
 
 ---
 
-### 6. **Manutenibilidade**
+### 6. **Mantenibilidad**
 
-| Aspecto | Serverless | Microserviços |
+| Aspecto | Serverless | Microservicios |
 |---------|-----------|---------------|
-| **Estrutura de código** | ⚠️ Muitas funções pequenas | ✅ Serviços coesos |
-| **Testes** | ⚠️ Difícil testar localmente | ✅ Facilmente testável |
-| **Versionamento** | ✅ Por função | ✅ Por serviço |
-| **Rollback** | ✅ Instantâneo | ⚠️ Mais complexo |
+| **Estructura de código** | ⚠️ Muchas funciones pequeñas | ✅ Servicios cohesivos |
+| **Pruebas** | ⚠️ Difícil probar localmente | ✅ Fácilmente testeable |
+| **Versionado** | ✅ Por función | ✅ Por servicio |
+| **Rollback** | ✅ Instantáneo | ⚠️ Más complejo |
 
-**Vencedor:** Empate (depende da equipe)
-
----
-
-## Quando Usar Cada Arquitetura?
-
-### ✅ Use **SERVERLESS** quando:
-
-1. **Startup/MVP** - Precisa validar ideia rapidamente
-2. **Tráfego imprevisível** - Black Friday, eventos sazonais
-3. **Budget limitado** - Paga apenas pelo que usa
-4. **Equipe pequena** - Menos DevOps
-5. **Tarefas assíncronas** - Processamento de imagens, emails
-6. **Aplicações simples** - CRUD básicos, APIs REST
-
-**Exemplo:** Sistema de notificações, processamento de uploads, webhooks
+**Ganador:** Empate (depende del equipo)
 
 ---
 
-### ✅ Use **MICROSERVIÇOS** quando:
+## ¿Cuándo Usar Cada Arquitectura?
 
-1. **Latência crítica** - Sistema de pagamentos, trading
-2. **Processamento longo** - ML, data processing (>15min)
-3. **Múltiplas equipes** - Times independentes por domínio
+### ✅ Use **SERVERLESS** cuando:
+
+1. **Startup/MVP** - Necesita validar idea rápidamente
+2. **Tráfico impredecible** - Black Friday, eventos estacionales
+3. **Presupuesto limitado** - Paga solo por lo que usa
+4. **Equipo pequeño** - Menos DevOps
+5. **Tareas asíncronas** - Procesamiento de imágenes, emails
+6. **Aplicaciones simples** - CRUD básicos, APIs REST
+
+**Ejemplo:** Sistema de notificaciones, procesamiento de uploads, webhooks
+
+---
+
+### ✅ Use **MICROSERVICIOS** cuando:
+
+1. **Latencia crítica** - Sistema de pagos, trading
+2. **Procesamiento largo** - ML, data processing (>15min)
+3. **Múltiples equipos** - Equipos independientes por dominio
 4. **Requisitos específicos** - Hardware especial, GPUs
-5. **Controle total** - Zero vendor lock-in
-6. **Alta complexidade** - Sistema bancário, ERP
+5. **Control total** - Cero vendor lock-in
+6. **Alta complejidad** - Sistema bancario, ERP
 
-**Exemplo:** Sistema financeiro, plataforma de streaming, IoT industrial
+**Ejemplo:** Sistema financiero, plataforma de streaming, IoT industrial
 
 ---
 
@@ -141,21 +141,21 @@ Muitas empresas usam **arquitetura híbrida**:
    └───────┘       └────────┘
 ```
 
-**Estratégia:**
-- **Microserviços** para serviços core (auth, orders, payments)
-- **Serverless** para tarefas assíncronas (emails, uploads, reports)
+**Estrategia:**
+- **Microservicios** para servicios core (auth, orders, payments)
+- **Serverless** para tareas asíncronas (emails, uploads, reports)
 
 ---
 
-## Empresas e Suas Escolhas
+## Empresas y Sus Elecciones
 
-| Empresa | Arquitetura | Razão |
+| Empresa | Arquitectura | Razón |
 |---------|-------------|-------|
-| **Netflix** | Microserviços | Latência crítica, escala massiva |
-| **Airbnb** | Microserviços | Times independentes |
+| **Netflix** | Microservicios | Latencia crítica, escala masiva |
+| **Airbnb** | Microservicios | Equipos independientes |
 | **Coca-Cola** | Serverless | Vending machines (IoT) |
 | **iRobot** | Serverless | Dispositivos IoT |
-| **Uber** | Híbrido | Core em microserviços, eventos em serverless |
+| **Uber** | Híbrido | Core en microservicios, eventos en serverless |
 
 ---
 
@@ -173,36 +173,36 @@ Muitas empresas usam **arquitetura híbrida**:
 - Controle total
 - Equipes independentes
 
-### Para **E-commerce em Crescimento**:
-**Recomendação:** ✅ **HÍBRIDO**
-- Core em microserviços
-- Tarefas assíncronas em serverless
-- Melhor custo-benefício
+### Para **E-commerce en Crecimiento**:
+**Recomendación:** ✅ **HÍBRIDO**
+- Core en microservicios
+- Tareas asíncronas en serverless
+- Mejor costo-beneficio
 
 ---
 
-## Resumo: Pontuação Final
+## Resumen: Puntuación Final
 
-| Critério | Serverless | Microserviços |
+| Criterio | Serverless | Microservicios |
 |----------|-----------|---------------|
-| Custo inicial | 10/10 ⭐ | 5/10 |
-| Escalabilidade | 10/10 ⭐ | 8/10 |
-| Performance | 6/10 | 9/10 ⭐ |
-| Flexibilidade | 6/10 | 10/10 ⭐ |
-| Manutenção | 9/10 ⭐ | 6/10 |
-| Complexidade | 8/10 ⭐ | 4/10 |
+| Costo inicial | 10/10 ⭐ | 5/10 |
+| Escalabilidad | 10/10 ⭐ | 8/10 |
+| Rendimiento | 6/10 | 9/10 ⭐ |
+| Flexibilidad | 6/10 | 10/10 ⭐ |
+| Mantenimiento | 9/10 ⭐ | 6/10 |
+| Complejidad | 8/10 ⭐ | 4/10 |
 | **TOTAL** | **49/60** | **42/60** |
 
 ---
 
-## Conclusão
+## Conclusión
 
-**Não existe "melhor" arquitetura absoluta.** A escolha depende de:
+**No existe una arquitectura "mejor" absoluta.** La elección depende de:
 
-1. **Estágio da empresa** (startup vs enterprise)
-2. **Tamanho da equipe** (pequena vs múltiplos times)
-3. **Budget** (limitado vs abundante)
-4. **Requisitos de latência** (crítica vs aceitável)
-5. **Previsibilidade de carga** (estável vs sazonal)
+1. **Etapa de la empresa** (startup vs enterprise)
+2. **Tamaño del equipo** (pequeño vs múltiples equipos)
+3. **Presupuesto** (limitado vs abundante)
+4. **Requisitos de latencia** (crítica vs aceptable)
+5. **Previsibilidad de carga** (estable vs estacional)
 
-💡 **Dica:** Comece com **serverless** para validar rapidamente, depois migre para **microserviços** conforme cresce!
+💡 **Consejo:** ¡Comience con **serverless** para validar rápidamente, luego migre a **microservicios** a medida que crece!
